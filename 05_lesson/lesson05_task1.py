@@ -19,21 +19,20 @@ try:
     # Открываем страницу
     driver.get("http://uitestingplayground.com/classattr")
     time.sleep(2)
-    
+
     # Находим синюю кнопку по CSS классу (btn-primary)
-    # Используем contains для надежности
     blue_button = driver.find_element(By.CSS_SELECTOR, ".btn-primary")
-    
+
     # Кликаем на кнопку
     blue_button.click()
     print("✅ Клик по синей кнопке выполнен")
-    
+
     # Небольшая пауза, чтобы увидеть результат
     time.sleep(2)
-    
+
 except Exception as e:
     print(f"❌ Ошибка: {e}")
-    
+
 finally:
     # Закрываем браузер
     driver.quit()
