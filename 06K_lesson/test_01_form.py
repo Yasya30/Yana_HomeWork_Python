@@ -20,9 +20,8 @@ def test_form_validation():
     wait = WebDriverWait(driver, 10)
 
     try:
-        driver.get(
-            "https://bonigarcia.dev/selenium-webdriver-java/data-types.html"
-        )
+        url = "https://bonigarcia.dev/selenium-webdriver-java/data-types.html"
+        driver.get(url)
         wait.until(EC.presence_of_element_located((By.TAG_NAME, "form")))
 
         # Заполняем форму
@@ -38,19 +37,21 @@ def test_form_validation():
         driver.find_element(By.NAME, "company").send_keys("SkyPro")
 
         # Нажимаем Submit
-        submit_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        submit_button = driver.find_element(
+            By.CSS_SELECTOR, "button[type='submit']"
+        )
         driver.execute_script("arguments[0].click();", submit_button)
 
-        # Ждем, пока страница перезагрузится
+        # Ждем появления классов валидации
         time.sleep(1)
 
-        # Проверяем Zip code (должен быть подсвечен красным - класс alert-danger)
+        # Проверяем Zip code
         zip_code = driver.find_element(By.ID, "zip-code")
         zip_class = zip_code.get_attribute("class")
-        assert "alert-danger" in zip_class.lower() or "error" in zip_class.lower(), \
-            "Zip code поле должно быть подсвечено красным"
+        error_msg = "Zip code поле должно быть подсвечено красным"
+        assert "alert-danger" in zip_class.lower() or "error" in zip_class.lower(), error_msg
 
-        # Проверяем остальные поля (должны быть подсвечены зеленым - класс is-valid)
+        # Проверяем остальные поля
         success_fields = [
             "first-name", "last-name", "address", "e-mail",
             "phone", "city", "country", "job-position", "company"
@@ -58,10 +59,12 @@ def test_form_validation():
         for field_name in success_fields:
             field = driver.find_element(By.ID, field_name)
             field_class = field.get_attribute("class")
-            assert "is-valid" in field_class.lower() or "success" in field_class.lower(), \
-                f"Поле {field_name} должно быть подсвечено зеленым"
+            success_msg = f"Поле {field_name} должно быть подсвечено зеленым"
+            assert "is-valid" in field_class.lower() or "success" in field_class.lower(), success_msg
 
         print("✅ Тест формы пройден")
 
     finally:
         driver.quit()
+        
+

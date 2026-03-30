@@ -29,3 +29,5 @@ def test_calculator():
         print("✅ Тест калькулятора пройден")
     finally:
         driver.quit()
+
+

@@ -19,9 +19,8 @@ def test_calculator():
     wait = WebDriverWait(driver, 60)
 
     try:
-        driver.get(
-            "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html"
-        )
+        url = "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html"
+        driver.get(url)
         wait.until(EC.presence_of_element_located((By.ID, "delay")))
 
         # Вводим задержку 45
@@ -36,12 +35,12 @@ def test_calculator():
         driver.find_element(By.XPATH, "//span[text()='=']").click()
 
         # Ждем результат 15
-        result = wait.until(
+        wait.until(
             EC.text_to_be_present_in_element((By.CLASS_NAME, "screen"), "15")
         )
 
-        assert result is True
         print("✅ Тест калькулятора пройден")
 
     finally:
         driver.quit()
+        

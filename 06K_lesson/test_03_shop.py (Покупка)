@@ -24,25 +24,34 @@ def test_shop():
         driver.find_element(By.ID, "password").send_keys("secret_sauce")
         driver.find_element(By.ID, "login-button").click()
 
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "inventory_list")))
-        driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
-        driver.find_element(By.ID, "add-to-cart-sauce-labs-bolt-t-shirt").click()
-        driver.find_element(By.ID, "add-to-cart-sauce-labs-onesie").click()
+        wait.until(EC.presence_of_element_located(
+            (By.CLASS_NAME, "inventory_list"))
+        )
+        driver.find_element(
+            By.ID, "add-to-cart-sauce-labs-backpack"
+        ).click()
+        driver.find_element(
+            By.ID, "add-to-cart-sauce-labs-bolt-t-shirt"
+        ).click()
+        driver.find_element(
+            By.ID, "add-to-cart-sauce-labs-onesie"
+        ).click()
 
-        # Переходим в корзину
         driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
         time.sleep(2)
 
-        # Прокручиваем страницу вниз, чтобы кнопка Checkout стала видимой
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # Прокручиваем страницу вниз
+        driver.execute_script(
+            "window.scrollTo(0, document.body.scrollHeight);"
+        )
         time.sleep(1)
 
-        # Нажимаем Checkout
-        checkout_btn = wait.until(EC.element_to_be_clickable((By.ID, "checkout")))
+        checkout_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, "checkout"))
+        )
         checkout_btn.click()
         time.sleep(2)
 
-        # Заполняем форму
         wait.until(EC.presence_of_element_located((By.ID, "first-name")))
         driver.find_element(By.ID, "first-name").send_keys("Иван")
         driver.find_element(By.ID, "last-name").send_keys("Петров")
@@ -52,7 +61,9 @@ def test_shop():
         time.sleep(2)
 
         total = wait.until(
-            EC.presence_of_element_located((By.CLASS_NAME, "summary_total_label"))
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, "summary_total_label")
+            )
         )
         total_text = total.text
         print(f"Итоговая сумма: {total_text}")
@@ -68,3 +79,4 @@ def test_shop():
     finally:
         time.sleep(2)
         driver.quit()
+        

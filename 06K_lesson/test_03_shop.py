@@ -92,3 +92,5 @@ def test_shop():
     finally:
         time.sleep(3)
         driver.quit()
+
+
