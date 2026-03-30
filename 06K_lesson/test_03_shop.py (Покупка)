@@ -1,0 +1,82 @@
+"""
+Тест 3. Покупка
+"""
+
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+
+def test_shop():
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+    wait = WebDriverWait(driver, 15)
+
+    try:
+        driver.get("https://www.saucedemo.com/")
+        wait.until(EC.presence_of_element_located((By.ID, "user-name")))
+
+        driver.find_element(By.ID, "user-name").send_keys("standard_user")
+        driver.find_element(By.ID, "password").send_keys("secret_sauce")
+        driver.find_element(By.ID, "login-button").click()
+
+        wait.until(EC.presence_of_element_located(
+            (By.CLASS_NAME, "inventory_list"))
+        )
+        driver.find_element(
+            By.ID, "add-to-cart-sauce-labs-backpack"
+        ).click()
+        driver.find_element(
+            By.ID, "add-to-cart-sauce-labs-bolt-t-shirt"
+        ).click()
+        driver.find_element(
+            By.ID, "add-to-cart-sauce-labs-onesie"
+        ).click()
+
+        driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+        time.sleep(2)
+
+        # Прокручиваем страницу вниз
+        driver.execute_script(
+            "window.scrollTo(0, document.body.scrollHeight);"
+        )
+        time.sleep(1)
+
+        checkout_btn = wait.until(
+            EC.element_to_be_clickable((By.ID, "checkout"))
+        )
+        checkout_btn.click()
+        time.sleep(2)
+
+        wait.until(EC.presence_of_element_located((By.ID, "first-name")))
+        driver.find_element(By.ID, "first-name").send_keys("Иван")
+        driver.find_element(By.ID, "last-name").send_keys("Петров")
+        driver.find_element(By.ID, "postal-code").send_keys("123456")
+
+        driver.find_element(By.ID, "continue").click()
+        time.sleep(2)
+
+        total = wait.until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, "summary_total_label")
+            )
+        )
+        total_text = total.text
+        print(f"Итоговая сумма: {total_text}")
+
+        assert "$58.29" in total_text
+        print("✅ Тест покупки пройден")
+
+    except Exception as e:
+        print(f"❌ Ошибка: {e}")
+        driver.save_screenshot("error_shop.png")
+        raise
+
+    finally:
+        time.sleep(2)
+        driver.quit()
+        
