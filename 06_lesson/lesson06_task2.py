@@ -1,4 +1,4 @@
-import pytest
+,import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,25 +14,21 @@ class TestCalc:
         self.driver.quit()
 
     def test_calculator(self):
-        # Открываем калькулятор
         self.driver.get("https://www.calculator.net/")
-
-        # Ждем загрузки калькулятора
         wait = WebDriverWait(self.driver, 10)
 
-        # Нажимаем цифры и операции
         buttons = ["1", "+", "2", "="]
         for btn in buttons:
             element = wait.until(
-                EC.element_to_be_clickable((By.XPATH, f"//span[text()='{btn}']"))
+                EC.element_to_be_clickable(
+                    (By.XPATH, f"//span[text()='{btn}']")
+                )
             )
             element.click()
 
-        # Получаем результат
         result = wait.until(
-            EC.presence_of_element_located((By.ID, "sciOutPut"))
+            EC.presence_of_element_located(
+                (By.ID, "sciOutPut")
+            )
         )
-        
-        # Проверяем
         assert "3" in result.text
-

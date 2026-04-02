@@ -14,11 +14,10 @@ class TestShop:
         self.driver.quit()
 
     def test_shopping_cart(self):
-        # Открываем магазин Saucedemo
         self.driver.get("https://www.saucedemo.com/")
+        wait = WebDriverWait(self.driver, 10)
 
-        # Логинимся
-        username = WebDriverWait(self.driver, 10).until(
+        username = wait.until(
             EC.presence_of_element_located((By.ID, "user-name"))
         )
         username.send_keys("standard_user")
@@ -29,26 +28,24 @@ class TestShop:
         login_btn = self.driver.find_element(By.ID, "login-button")
         login_btn.click()
 
-        # Добавляем товары в корзину
-        wait = WebDriverWait(self.driver, 10)
-        
         add_buttons = wait.until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".btn_inventory"))
+            EC.presence_of_all_elements_located(
+                (By.CSS_SELECTOR, ".btn_inventory")
+            )
         )
-        
-        # Добавляем первый и второй товар
         add_buttons[0].click()
         add_buttons[1].click()
 
-        # Переходим в корзину
         cart = wait.until(
-            EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link"))
+            EC.element_to_be_clickable(
+                (By.CLASS_NAME, "shopping_cart_link")
+            )
         )
         cart.click()
 
-        # Проверяем, что товары в корзине
         cart_items = wait.until(
-            EC.presence_of_all_elements_located((By.CLASS_NAME, "cart_item"))
+            EC.presence_of_all_elements_located(
+                (By.CLASS_NAME, "cart_item")
+            )
         )
         assert len(cart_items) == 2
-
