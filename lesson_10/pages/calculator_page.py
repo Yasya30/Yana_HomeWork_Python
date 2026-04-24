@@ -11,17 +11,17 @@ class CalculatorPage:
         Инициализация страницы калькулятора
 
         Args:
-            driver: WebDriver экземпляр браузера
+            driver (webdriver): Экземпляр драйвера браузера
         """
         self.driver = driver
         self.wait = WebDriverWait(driver, 60)
 
     def open(self):
         """
-        Открытие страницы калькулятора
+        Открыть страницу калькулятора в браузере
 
         Returns:
-            CalculatorPage: Возвращает экземпляр страницы для цепочки вызовов
+            CalculatorPage: Экземпляр класса для цепочки вызовов
         """
         self.driver.get(
             "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html"
@@ -30,13 +30,13 @@ class CalculatorPage:
 
     def set_delay(self, seconds: str):
         """
-        Установка задержки перед вычислением
+        Установить задержку перед вычислением
 
         Args:
-            seconds: Количество секунд задержки
+            seconds (str): Количество секунд задержки
 
         Returns:
-            CalculatorPage: Возвращает экземпляр страницы для цепочки вызовов
+            CalculatorPage: Экземпляр класса для цепочки вызовов
         """
         delay_input = self.wait.until(
             EC.presence_of_element_located((By.ID, "delay"))
@@ -47,13 +47,13 @@ class CalculatorPage:
 
     def click_button(self, button_text: str):
         """
-        Нажатие на кнопку калькулятора
+        Нажать кнопку калькулятора
 
         Args:
-            button_text: Текст на кнопке (цифра или оператор)
+            button_text (str): Текст на кнопке (например, "7", "+", "=")
 
         Returns:
-            CalculatorPage: Возвращает экземпляр страницы для цепочки вызовов
+            CalculatorPage: Экземпляр класса для цепочки вызовов
         """
         self.driver.find_element(
             By.XPATH, f"//span[text()='{button_text}']"
@@ -62,10 +62,10 @@ class CalculatorPage:
 
     def get_result(self) -> str:
         """
-        Получение результата вычисления
+        Получить результат вычисления
 
         Returns:
-            str: Текст результата на экране калькулятора
+            str: Число на экране калькулятора
         """
         self.wait.until(
             EC.text_to_be_present_in_element((By.CLASS_NAME, "screen"), "15")

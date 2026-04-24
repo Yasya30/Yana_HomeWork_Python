@@ -11,22 +11,22 @@ class CheckoutPage:
         Инициализация страницы оформления заказа
 
         Args:
-            driver: WebDriver экземпляр браузера
+            driver (webdriver): Экземпляр драйвера браузера
         """
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 
     def fill_form(self, first_name: str, last_name: str, postal_code: str):
         """
-        Заполнение формы заказа данными покупателя
+        Заполнить форму данными покупателя
 
         Args:
-            first_name: Имя покупателя
-            last_name: Фамилия покупателя
-            postal_code: Почтовый индекс
+            first_name (str): Имя
+            last_name (str): Фамилия
+            postal_code (str): Почтовый индекс
 
         Returns:
-            CheckoutPage: Возвращает экземпляр страницы для цепочки вызовов
+            CheckoutPage: Экземпляр класса для цепочки вызовов
         """
         self.driver.find_element(By.ID, "first-name").send_keys(first_name)
         self.driver.find_element(By.ID, "last-name").send_keys(last_name)
@@ -36,10 +36,10 @@ class CheckoutPage:
 
     def get_total(self) -> str:
         """
-        Получение итоговой суммы заказа
+        Получить итоговую стоимость заказа
 
         Returns:
-            str: Текст итоговой суммы (например, "Total: $58.29")
+            str: Текст с итоговой суммой (например, "Total: $58.29")
         """
         self.wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "summary_total_label"))

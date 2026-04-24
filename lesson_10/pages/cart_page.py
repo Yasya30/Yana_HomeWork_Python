@@ -11,17 +11,17 @@ class CartPage:
         Инициализация страницы корзины
 
         Args:
-            driver: WebDriver экземпляр браузера
+            driver (webdriver): Экземпляр драйвера браузера
         """
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 
     def checkout(self):
         """
-        Нажатие кнопки оформления заказа (Checkout)
+        Нажать кнопку оформления заказа (Checkout)
 
         Returns:
-            CartPage: Возвращает экземпляр страницы для цепочки вызовов
+            CartPage: Экземпляр класса для цепочки вызовов
         """
         self.driver.find_element(By.ID, "checkout").click()
         return self

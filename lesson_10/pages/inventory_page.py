@@ -11,20 +11,20 @@ class InventoryPage:
         Инициализация страницы каталога
 
         Args:
-            driver: WebDriver экземпляр браузера
+            driver (webdriver): Экземпляр драйвера браузера
         """
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 
     def add_item_to_cart(self, item_name: str):
         """
-        Добавление товара в корзину по его названию
+        Добавить товар в корзину по его названию
 
         Args:
-            item_name: Название товара (например, "Sauce Labs Backpack")
+            item_name (str): Название товара
 
         Returns:
-            InventoryPage: Возвращает экземпляр страницы для цепочки вызовов
+            InventoryPage: Экземпляр класса для цепочки вызовов
         """
         self.driver.find_element(
             By.XPATH,
@@ -34,10 +34,10 @@ class InventoryPage:
 
     def go_to_cart(self):
         """
-        Переход в корзину
+        Перейти в корзину
 
         Returns:
-            InventoryPage: Возвращает экземпляр страницы для цепочки вызовов
+            InventoryPage: Экземпляр класса для цепочки вызовов
         """
         self.driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
         return self
